@@ -27,12 +27,6 @@
                 <a class="navbar-brand" href="{{ url('/') }}">
                     留学
                 </a>
-                <a href="">
-                    <button type='button' class='btn btn-primary'>+ 収入</button>
-                </a>
-                <a href="{{}}">
-                    <button type='button' class='btn btn-secondary'>- 支出</button>
-                </a>
             </div>
             <div class="my navbar-control">
                 @if(Auth::check())
@@ -49,9 +43,9 @@
                     });
                   </script>
             @else
-                <a class="my-navbar-item" href="{{ }}">ログイン</a>
+                <a class="my-navbar-item" href="">ログイン</a>
                 /
-                <a class="my-navbar-item" href="{{  }}">会員登録</a>
+                <a class="my-navbar-item" href="">会員登録</a>
             @endif
             </div>
         </nav>

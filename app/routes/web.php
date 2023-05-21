@@ -1,20 +1,15 @@
 <?php
 
 use App\Http\Controller\DisplayController;
+use App\Http\Controllers\RegistrationController;
 
-/*
-|--------------------------------------------------------------------------
-| Web Routes
-|--------------------------------------------------------------------------
-|
-| Here is where you can register web routes for your application. These
-| routes are loaded by the RouteServiceProvider within a group which
-| contains the "web" middleware group. Now create something great!
-|
-*/
+// top画面
+Route::get('/','DisplayController@index');
 
-// Route::get('/', function () {
-//     return view('top');
-// });
+// 投稿操作
+Route::resource('report','ReportController');
 
-Route::get('/',[DisplayController::class,'index']);
+// コメント登録
+Route::post('/report/{commment_id}/comments','RegistrationController');
+// ブクマ登録
+
