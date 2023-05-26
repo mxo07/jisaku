@@ -6,8 +6,11 @@ use Illuminate\Http\Request;
 
 class RegistrationController extends Controller
 {
-    public function createReportForm(){
+    // public function createReportForm(){
 
-        $params = get();
-    }
+    //     // $params = get();
+
+    //     return view('report_form');
+    // }
+   
 }

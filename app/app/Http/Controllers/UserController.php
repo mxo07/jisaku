@@ -2,13 +2,10 @@
 
 namespace App\Http\Controllers;
 
-use App\Report;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\DB;
-use Illuminate\Support\Facades\Auth;
+use App\User;
 
-
-class ReportController extends Controller
+class UserController extends Controller
 {
     /**
      * Display a listing of the resource.
@@ -17,9 +14,8 @@ class ReportController extends Controller
      */
     public function index()
     {
-        $reports = Report::orederBy('created_at','desc')->get();
-
-        return view('reports.list')->with(['reports' => $reports]);
+        $users = User::all();
+        return view('user_home',['users' => $users]);
     }
 
     /**
@@ -29,7 +25,7 @@ class ReportController extends Controller
      */
     public function create()
     {
-        return view('report_form');
+        //
     }
 
     /**
@@ -40,15 +36,9 @@ class ReportController extends Controller
      */
     public function store(Request $request)
     {
-        $report = new Report;
-        $columns = ['title','text','image','adress'];
+        $user = new User;
 
-        foreach($columns as $column){
-             $report->$column = $request->$column;
-        }
-        $report->save();
-    
-        return redirect('/');
+        
     }
 
     /**
@@ -57,10 +47,9 @@ class ReportController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function show(Report $report)
+    public function show(User $user)
     {
-       
-        return view('reportdetail',['report' => $report,]);
+        return view('user_home',['user' => $user]);
     }
 
     /**
@@ -69,9 +58,9 @@ class ReportController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function edit(Report $report)
+    public function edit($id)
     {
-        return view('reportedit',['report' =>$report,]);
+        //
     }
 
     /**
@@ -81,16 +70,9 @@ class ReportController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, Report $report)
+    public function update(Request $request, $id)
     {
-        $columns =  ['title','text','image','adress'];
-
-   foreach($columns as $column){
-        $report->$column = $request->$column;
-   }
-   $report->save();
-   return redirect('/');
-
+        //
     }
 
     /**
@@ -99,9 +81,8 @@ class ReportController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function destroy(Report $report)
+    public function destroy($id)
     {
-        $report-delete();
-        return redirect('/');
+        //
     }
 }
