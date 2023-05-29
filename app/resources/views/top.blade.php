@@ -24,10 +24,11 @@
     
                                     <tr>
                                         <th scope='col'>
-                                      
+                                        <a href="{{ route('users.index')}}">{{ $report['id']}}</a></th>
+                                        {{ $report['id']}}
                                         </th>
                                         <th scope='col'>
-                                        <a href="{{ route('report.show',['report' => $report['id']])}}">{{ $report['title']}}</th>
+                                        <a href="{{ route('report.show',['report' => $report['id']])}}">{{ $report['title']}}</a></th>
                                         <th scope='col'>{{ $report['adress']}}</th>
                                       </tr>
                                       @endforeach

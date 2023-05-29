@@ -1,4 +1,4 @@
-<form action="/reports/{{$report['id']}}" enctype="multipart/form-data" method="POST">
+<form action="{{route('report.update',['report' => $report['id']])}}" enctype="multipart/form-data" method="POST">
 @method('PUT')
   @csrf
   <fieldset class="mb-4">

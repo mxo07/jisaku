@@ -41,6 +41,11 @@ class ReportController extends Controller
     public function store(Request $request)
     {
         $report = new Report;
+
+        $pic = 'sample';
+        $file_name = $request->file('image')->getClientOriginalName();
+        $request->file('image')->store('public/'.$pic,$file_name);
+
         $columns = ['title','text','image','adress'];
 
         foreach($columns as $column){
@@ -81,7 +86,7 @@ class ReportController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, Report $report)
+    public function update(Report $report,Request $request)
     {
         $columns =  ['title','text','image','adress'];
 
@@ -101,7 +106,16 @@ class ReportController extends Controller
      */
     public function destroy(Report $report)
     {
-        $report-delete();
+        $report->delete();
         return redirect('/');
+    }
+
+    public function bookmark_reports(){
+
+        $reports = \Auth::user()->bookmark_reports()->orderBy('created_at','desc');
+        $data = [
+            'reports' => $reports,
+        ];
+        return view('reports.bookmarks',$data);
     }
 }

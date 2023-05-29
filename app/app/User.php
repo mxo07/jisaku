@@ -37,7 +37,22 @@ class User extends Authenticatable
         'email_verified_at' => 'datetime',
     ];
 
-    public function bookmark(){
-        return $this->hasMany('App\Bookmark');
+    public function comments(){
+    return $this->hasMany('App\Comment');
+}
+
+    public function is_bookmark($reportId){
+
+        return $this->bookmarks()->where('report_id',$reportId)->exists();
     }
+
+    public function bookmark(){
+        return $this->hasMany('App\Bookmark','bookmark','report_id');
+    }
+
+    public function bookmark_reports(){
+        return $this->belongsToMany('App\Report','bookmark','report_id');
+    }
+
+
 }

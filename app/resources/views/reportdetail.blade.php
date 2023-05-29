@@ -10,11 +10,29 @@
                               </a>
                           </div>
                           <div class="p-2 bd-hightlight">
-                          <a href="{{ route('report.destroy',['report' => $report['id']])}}">
-                               @csrf
-                               <button class='btn btn-warning'>論理削除</button>
-                           </a>
+                          <form action="{{ route('report.destroy',['report' => $report['id']]) }}" method="POST">
+                          @method('DELETE')  
+                          @csrf
+                               <button type="submit" class='btn btn-warning'>削除</button>
+                            </form>
                           </div>
+                          <a href="/"><button type="submit" class='btn btn-danger'>戻る</button></a>
+    <div class="article-control">
+        
+        <form action="{{ route('bookmark.store', $report) }}" method="post">
+            @csrf
+            <button>お気に入り登録</button>
+        </form>
+      
+        <form action="{{ route('bookmark.destroy', $report) }}" method="post">
+            @csrf
+            @method('DELETE')
+            <button>お気に入り解除</button>
+        </form>
+     
+    </div>
+
+                        
                           <div class="card-body">
                             <div class="card-body">
                                 <table class='table'>
@@ -39,6 +57,29 @@
                              </div>
                           </div>
                           </div>
+
+                          <div class="chat-container row justify-content-center">
+    <div class="chat-area">
+        <div class="card">
+            <div class="card-header">Comment</div>
+            <div class="card-body chat-card">
+       
+            </div>
+        </div>
+    </div>
+</div>
+
+<form method="POST" action="{{ route('comment.store') }}">
+    @csrf
+<div class="comment-container row justify-content-center">
+    <div class="input-group comment-area">
+        <textarea class="form-control" placeholder="input massage" aria-label="With textarea"></textarea>
+        <button type="input-group-prepend button" class="btn btn-outline-primary comment-btn">
+            Submit
+        </button>
+    </div>
+</div>
+</form>
 </main>
 
 @endsection

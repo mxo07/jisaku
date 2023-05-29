@@ -1,7 +1,7 @@
 <?php
 
 use App\Http\Controller\DisplayController;
-use App\Http\Controllers\RegistrationController;
+use App\Http\Controllers\BookmarkController;
 
 
 
@@ -17,8 +17,10 @@ Route::resource('users','UserController');
 Route::resource('report','ReportController');
 
 // コメント登録
-// Route::post('/report/{commment_id}/comments','RegistrationController');
+Route::resource('comment','CommentController');
 // ブクマ登録
+Route::post('/report_bookmark/{report}', 'BookmarkController@store')->name('bookmark.store');
+Route::delete('/report_unbookmark/{report}', 'BookmarkController@destroy')->name('bookmark.destroy');
 
 
 

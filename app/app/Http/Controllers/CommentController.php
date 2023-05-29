@@ -2,15 +2,13 @@
 
 namespace App\Http\Controllers;
 
+use App\Comment;
+use App\Report;
+use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Auth;
-use Illuminate\Http\Request;
-use App\User;
-use App\Report;
-use App\Bookmark;
-use App\Comment;
 
-class UserController extends Controller
+class CommentController extends Controller
 {
     /**
      * Display a listing of the resource.
@@ -19,8 +17,9 @@ class UserController extends Controller
      */
     public function index()
     {
-        $users = User::all();
-        return view('user_home',['users' => $users]);
+        $comments = Comment::get();
+
+        return view('reportdetail');
     }
 
     /**
@@ -28,9 +27,13 @@ class UserController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function create()
+    public function create(Comment $comment,Report $report)
     {
-        //
+        $comments = $comment->getComment($report->id);
+
+        return view('reportdetail',[
+            'report' => $report,
+            'comment' => $comment]);
     }
 
     /**
@@ -39,31 +42,37 @@ class UserController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(Request $request)
+    public function store(Request $request,Report $report)
     {
-        $user = new User;
+        $comment = new Comment();
+        $comment->comment = $request->comment;
 
+        $comment->save();
+
+        return redirect('reportdetail',[
+            'comment' => $comment ,
+        ]);
         
     }
 
     /**
      * Display the specified resource.
      *
-     * @param  int  $id
+     * @param  \App\Comment  $comment
      * @return \Illuminate\Http\Response
      */
-    public function show(User $user)
+    public function show(Comment $comment)
     {
-        return view('user_home',['user' => $user]);
+        //
     }
 
     /**
      * Show the form for editing the specified resource.
      *
-     * @param  int  $id
+     * @param  \App\Comment  $comment
      * @return \Illuminate\Http\Response
      */
-    public function edit($id)
+    public function edit(Comment $comment)
     {
         //
     }
@@ -72,10 +81,10 @@ class UserController extends Controller
      * Update the specified resource in storage.
      *
      * @param  \Illuminate\Http\Request  $request
-     * @param  int  $id
+     * @param  \App\Comment  $comment
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, $id)
+    public function update(Request $request, Comment $comment)
     {
         //
     }
@@ -83,10 +92,10 @@ class UserController extends Controller
     /**
      * Remove the specified resource from storage.
      *
-     * @param  int  $id
+     * @param  \App\Comment  $comment
      * @return \Illuminate\Http\Response
      */
-    public function destroy($id)
+    public function destroy(Comment $comment)
     {
         //
     }
