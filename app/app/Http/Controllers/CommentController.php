@@ -17,9 +17,9 @@ class CommentController extends Controller
      */
     public function index()
     {
-        $comments = Comment::get();
+        // $comments = Comment::get();
 
-        return view('reportdetail');
+        // return view('reportdetail');
     }
 
     /**
@@ -29,11 +29,12 @@ class CommentController extends Controller
      */
     public function create(Comment $comment,Report $report)
     {
-        $comments = $comment->getComment($report->id);
+        // dd($report);
+        $comments = Comment::where('reports_id',$report->id)->get();
 
         return view('reportdetail',[
             'report' => $report,
-            'comment' => $comment]);
+            'comments' => $comments]);
     }
 
     /**
@@ -44,15 +45,24 @@ class CommentController extends Controller
      */
     public function store(Request $request,Report $report)
     {
-        $comment = new Comment();
+        $id = $request->reports_id;
+        $report = Report::find($id);
+        $comments = Comment::where('reports_id',$id)->get();
+        
+        $comment = new Comment;
         $comment->comment = $request->comment;
+        $comment->reports_id = $id;
 
         $comment->save();
-
-        return redirect('reportdetail',[
-            'comment' => $comment ,
+       
+        // return view('reportdetail',[
+        //     'comment' => $comment ,
+        //     'report'  => $report,
+        //     'comments' => $comments,
+        // ]);
+        return redirect()->route('report.show',[
+            'report' => $id
         ]);
-        
     }
 
     /**

@@ -50,7 +50,7 @@
                                         <th scope='col'>{{ $report['title']}}</th>
                                         <th scope='col'>{{ $report['text']}}</th>
                                         <th scope='col'>{{ $report['adress']}}</th>
-                                        <th scope='col'>{{ $report['image']}}</th>
+                                        <th scope='col'><img src="{{ asset('storage/sample/'.$report['image'])}}"></th>
                                       </tr>
                                     </tbody>
                                  </table>
@@ -63,6 +63,20 @@
         <div class="card">
             <div class="card-header">Comment</div>
             <div class="card-body chat-card">
+            <div class="media">
+    <div class="media-body comment-body">
+        @foreach($comments as $comment)
+        <div class="row">
+            <span class="comment-body-user">{{ $comment['id'] }}</span>
+            <span class="comment-body-time">{{ $comment['created_at'] }}</span>
+        </div>
+        <span class="comment-body-content">
+        {!! nl2br(e($comment['comment'])) !!}
+        </span>
+        @endforeach
+    </div>
+</div>
+                <!-- @include('comment') -->
        
             </div>
         </div>
@@ -73,7 +87,8 @@
     @csrf
 <div class="comment-container row justify-content-center">
     <div class="input-group comment-area">
-        <textarea class="form-control" placeholder="input massage" aria-label="With textarea"></textarea>
+        <input type="hidden" value="{{ $report['id']}}" name="reports_id">
+        <textarea class="form-control" placeholder="input massage" aria-label="With textarea" name="comment"></textarea>
         <button type="input-group-prepend button" class="btn btn-outline-primary comment-btn">
             Submit
         </button>

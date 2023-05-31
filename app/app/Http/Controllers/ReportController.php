@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Report;
+use App\Comment;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Auth;
@@ -44,13 +45,15 @@ class ReportController extends Controller
 
         $pic = 'sample';
         $file_name = $request->file('image')->getClientOriginalName();
-        $request->file('image')->store('public/'.$pic,$file_name);
+        $request->file('image')->storeAs('public/'.$pic,$file_name);
 
-        $columns = ['title','text','image','adress'];
+        $columns = ['title','text','adress'];
 
         foreach($columns as $column){
              $report->$column = $request->$column;
         }
+
+        $report->image=$file_name;
         $report->save();
     
         return redirect('/');
@@ -64,8 +67,11 @@ class ReportController extends Controller
      */
     public function show(Report $report)
     {
-       
-        return view('reportdetail',['report' => $report,]);
+        $comments = Comment::where('reports_id',$report->id)->get();
+
+        return view('reportdetail',[
+            'report' => $report,
+            'comments' => $comments]);
     }
 
     /**
