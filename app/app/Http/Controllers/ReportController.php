@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Report;
 use App\Comment;
+use App\Bookmark;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Auth;
@@ -20,7 +21,7 @@ class ReportController extends Controller
     {
         $reports = Report::orederBy('created_at','desc')->get();
 
-        return view('reports.list')->with(['reports' => $reports]);
+        return view('top')->with(['reports' => $reports]);
     }
 
     /**
@@ -68,10 +69,13 @@ class ReportController extends Controller
     public function show(Report $report)
     {
         $comments = Comment::where('reports_id',$report->id)->get();
+        $bookmarks = Bookmark::where('reports_id',$report->id)->get();
 
         return view('reportdetail',[
             'report' => $report,
-            'comments' => $comments]);
+            'comments' => $comments,
+            'bookmarks' => $bookmarks
+        ]);
     }
 
     /**

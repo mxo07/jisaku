@@ -22,7 +22,8 @@ Route::resource('comment','CommentController');
 Route::post('/report_bookmark/{report}', 'BookmarkController@store')->name('bookmark.store');
 Route::delete('/report_unbookmark/{report}', 'BookmarkController@destroy')->name('bookmark.destroy');
 
-
+//違反報告
+Route::resource('violation','ViolationController');
 
 
 Route::get('/home', 'HomeController@index')->name('home');

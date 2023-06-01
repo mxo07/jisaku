@@ -6,6 +6,9 @@ use Illuminate\Database\Eloquent\Model;
 
 class Bookmark extends Model
 {
+
+    public $timestamps = false;
+    
     public function user(){
         return $this->belongTo('App\User');
     }

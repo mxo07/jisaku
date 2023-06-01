@@ -17,19 +17,28 @@
                             </form>
                           </div>
                           <a href="/"><button type="submit" class='btn btn-danger'>戻る</button></a>
-    <div class="article-control">
+
+                          <div class="p-2 bd-hightlight">
+                            <a href="{{ route('violation.create',['report' => $report['id']])}}">
+                               <button class='btn btn-warning'>報告する</button>
+                            </a>
+                          </div>
+    <div class="report-control">
         
-        <form action="{{ route('bookmark.store', $report) }}" method="post">
+   
+        <form action="{{ route('bookmark.store',['report' =>$report['id']]) }}" method="POST">
+        <input type="hidden"  name="reports_id" value="{{ $report['id']}}">
             @csrf
-            <button>お気に入り登録</button>
-        </form>
-      
-        <form action="{{ route('bookmark.destroy', $report) }}" method="post">
-            @csrf
-            @method('DELETE')
-            <button>お気に入り解除</button>
+            <button type="submit">お気に入り登録</button>
         </form>
      
+        <form action="{{ route('bookmark.destroy',['report' =>$report['id']]) }}" method="POST">
+        <input type="hidden" name="reports_id" value="{{ $report['id']}}" >
+            @csrf
+            @method('DELETE')
+            <button type="submit">お気に入り解除</button>
+        </form>
+    
     </div>
 
                         
@@ -76,7 +85,6 @@
         @endforeach
     </div>
 </div>
-                <!-- @include('comment') -->
        
             </div>
         </div>

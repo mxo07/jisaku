@@ -2,13 +2,13 @@
 
 namespace App\Http\Controllers;
 
-use App\Comment;
+use App\Violation;
 use App\Report;
-use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Http\Request;
 
-class CommentController extends Controller
+class ViolationController extends Controller
 {
     /**
      * Display a listing of the resource.
@@ -17,6 +17,7 @@ class CommentController extends Controller
      */
     public function index()
     {
+        //
     }
 
     /**
@@ -24,13 +25,11 @@ class CommentController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function create(Comment $comment,Report $report)
+    public function create(Violation $violation,Report $report)
     {
-        $comments = Comment::where('reports_id',$report->id)->get();
+        $violations = Violation::where('reports_id',$report->id)->get();
 
-        return view('reportdetail',[
-            'report' => $report,
-            'comments' => $comments]);
+        return view('violation_form');
     }
 
     /**
@@ -39,30 +38,29 @@ class CommentController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(Request $request,Report $report)
+    public function store(Request $request,Report $report,Violation $violation)
     {
         $id = $request->reports_id;
         $report = Report::find($id);
-        $comments = Comment::where('reports_id',$id)->get();
+        $violations = Violation::where('reports_id',$id)->get();
         
-        $comment = new Comment;
-        $comment->comment = $request->comment;
-        $comment->reports_id = $id;
+        $violation = new Violation;
+        $violation->reason = $request->reason;
+        $violation->reports_id = $id;
 
-        $comment->save();
+        $violation->save();
        
-        return redirect()->route('report.show',[
-            'report' => $id
-        ]);
+        dd($violation);
+        return view('complete');
     }
 
     /**
      * Display the specified resource.
      *
-     * @param  \App\Comment  $comment
+     * @param  \App\Violation  $violation
      * @return \Illuminate\Http\Response
      */
-    public function show(Comment $comment)
+    public function show(Violation $violation)
     {
         //
     }
@@ -70,10 +68,10 @@ class CommentController extends Controller
     /**
      * Show the form for editing the specified resource.
      *
-     * @param  \App\Comment  $comment
+     * @param  \App\Violation  $violation
      * @return \Illuminate\Http\Response
      */
-    public function edit(Comment $comment)
+    public function edit(Violation $violation)
     {
         //
     }
@@ -82,10 +80,10 @@ class CommentController extends Controller
      * Update the specified resource in storage.
      *
      * @param  \Illuminate\Http\Request  $request
-     * @param  \App\Comment  $comment
+     * @param  \App\Violation  $violation
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, Comment $comment)
+    public function update(Request $request, Violation $violation)
     {
         //
     }
@@ -93,10 +91,10 @@ class CommentController extends Controller
     /**
      * Remove the specified resource from storage.
      *
-     * @param  \App\Comment  $comment
+     * @param  \App\Violation  $violation
      * @return \Illuminate\Http\Response
      */
-    public function destroy(Comment $comment)
+    public function destroy(Violation $violation)
     {
         //
     }
