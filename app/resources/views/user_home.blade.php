@@ -21,6 +21,16 @@
 
    
       <div class="card my-3">
+      <table class="table table-striped">
+            <thead>
+                <tr>
+                    <ths cope='col'>タイトル</th>
+                </tr>
+            </thead>
+            <tbody>
+                
+               
+            </tbody>
         <div class="card-body">
          
         </div>

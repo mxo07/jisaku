@@ -19,7 +19,7 @@
                           <a href="/"><button type="submit" class='btn btn-danger'>戻る</button></a>
 
                           <div class="p-2 bd-hightlight">
-                            <a href="{{ route('violation.create',['report' => $report['id']])}}">
+                            <a href="{{ route('violation.create',['violation' => $report['id']])}}">
                                <button class='btn btn-warning'>報告する</button>
                             </a>
                           </div>

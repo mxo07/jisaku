@@ -24,6 +24,7 @@ Route::delete('/report_unbookmark/{report}', 'BookmarkController@destroy')->name
 
 //違反報告
 Route::resource('violation','ViolationController');
+Route::get('violation/create/{violation}', 'ViolationController@create')->name('violation.create');
 
 
 Route::get('/home', 'HomeController@index')->name('home');

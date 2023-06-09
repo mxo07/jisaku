@@ -19,8 +19,10 @@ class UserController extends Controller
      */
     public function index()
     {
-        $users = User::all();
-        return view('user_home',['users' => $users]);
+        // $users = User::all();
+        return view('user_home'
+        // ,['users' => $users
+    );
     }
 
     /**
@@ -41,7 +43,7 @@ class UserController extends Controller
      */
     public function store(Request $request)
     {
-        $user = new User;
+        
 
         
     }
@@ -52,9 +54,9 @@ class UserController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function show(User $user)
+    public function show(Request $request)
     {
-        return view('user_home',['user' => $user]);
+        return view('user_home');
     }
 
     /**
