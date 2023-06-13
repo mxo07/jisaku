@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Comment;
 use App\Report;
+use App\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Auth;
@@ -48,11 +49,11 @@ class CommentController extends Controller
         $comment = new Comment;
         $comment->comment = $request->comment;
         $comment->reports_id = $id;
-
+        $comment->user_id = \Auth::id();
         $comment->save();
        
         return redirect()->route('report.show',[
-            'report' => $id
+            'report' => $id,
         ]);
     }
 

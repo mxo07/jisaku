@@ -9,6 +9,7 @@
         <textarea class='form-control' name='text'>{{old('text',$report['text'])}}</textarea>
       <label for='image'>画像</label>
         <input type='file' class='form-control' name='image' value="{{old('image',$report['image'])}}">
+        <img src="{{ asset('storage/sample/'.$report['image'])}}">
       <label for='adress'>住所</label>
         <input type='text' class='form-control' name='adress' value="{{old('adress',$report['adress'])}}">
 

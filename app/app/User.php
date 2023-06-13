@@ -37,6 +37,10 @@ class User extends Authenticatable
         'email_verified_at' => 'datetime',
     ];
 
+    public function reports(){
+        return $this->hasMany('App\Report');
+    }
+
     public function comments(){
     return $this->hasMany('App\Comment');
 }
@@ -47,5 +51,12 @@ class User extends Authenticatable
 
     public function violation(){
         return $this->hasMany('App\Violation');
+    }
+    public function bookemark_reports(){
+        return $this->belomgsToMany(report::class,'bookmarks','user_id','reports_id');
+    }
+
+    public function is_bookmark($reportId){
+        return $this->boolmarks()->where('reports_id',$reportId)->exists();
     }
 }

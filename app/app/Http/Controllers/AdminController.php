@@ -2,14 +2,10 @@
 
 namespace App\Http\Controllers;
 
-use App\Violation;
-use App\Report;
 use App\User;
-use Illuminate\Support\Facades\DB;
-use Illuminate\Support\Facades\Auth;
 use Illuminate\Http\Request;
 
-class ViolationController extends Controller
+class AdminController extends Controller
 {
     /**
      * Display a listing of the resource.
@@ -18,7 +14,33 @@ class ViolationController extends Controller
      */
     public function index()
     {
-        return view('admin_top');
+
+        
+
+        if(User::where('role','1')){
+
+            $violations = Violation::select('reports.id')
+            ->selectRaw('COUNT(violation.id) as count_violation')
+            ->groupBy('reports.id')
+            ->orderBy('count_violation','desc')
+            ->take(20)
+            ->get();
+
+            $reports = Report::select('user_id')
+                     ->selectRaw('COUNT(del_flg == 1) as count_del')
+                     ->groupBy('user_id')
+                     ->orderBy('count_del','desc')
+                     ->take(10)
+                     ->get();
+
+            return view('admin_top');
+
+        }else{
+            return redirect('/');
+        }
+
+          
+        
     }
 
     /**
@@ -26,12 +48,9 @@ class ViolationController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function create(int $report)
+    public function create()
     {
-        $violations = Violation::where('reports_id',$report)->first();
-        return view('violation_form',[
-            'report' => $report
-        ]);
+        //
     }
 
     /**
@@ -42,27 +61,16 @@ class ViolationController extends Controller
      */
     public function store(Request $request)
     {
-        $id = $request->reports_id;
-        $report = Report::find($id);
-        $violations = Violation::where('reports_id',$id)->get();
-        
-        $violation = new Violation;
-        $violation->reason = $request->reason;
-        $violation->reports_id = $request->reports_id;
-        $violation->user_id = \Auth::id();
-
-        $violation->save();
-       
-        return view('complete');
+        //
     }
 
     /**
      * Display the specified resource.
      *
-     * @param  \App\Violation  $violation
+     * @param  \App\User  $user
      * @return \Illuminate\Http\Response
      */
-    public function show(Violation $violation)
+    public function show(User $user)
     {
         //
     }
@@ -70,22 +78,26 @@ class ViolationController extends Controller
     /**
      * Show the form for editing the specified resource.
      *
-     * @param  \App\Violation  $violation
+     * @param  \App\User  $user
      * @return \Illuminate\Http\Response
      */
-    public function edit(Violation $violation)
+    public function edit(User $user)
     {
-        //
+
+       
+        
+
+       
     }
 
     /**
      * Update the specified resource in storage.
      *
      * @param  \Illuminate\Http\Request  $request
-     * @param  \App\Violation  $violation
+     * @param  \App\User  $user
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, Violation $violation)
+    public function update(Request $request, User $user)
     {
         //
     }
@@ -93,10 +105,10 @@ class ViolationController extends Controller
     /**
      * Remove the specified resource from storage.
      *
-     * @param  \App\Violation  $violation
+     * @param  \App\User  $user
      * @return \Illuminate\Http\Response
      */
-    public function destroy(Violation $violation)
+    public function destroy(User $user)
     {
         //
     }

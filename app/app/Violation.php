@@ -11,7 +11,7 @@ class Violation extends Model
     }
 
     public function user(){
-        return $this->belongTo('App\User');
+        return $this->belongTos('App\User');
     }
 
 }

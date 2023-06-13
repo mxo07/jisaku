@@ -17,10 +17,12 @@ class BookmarkController extends Controller
 
         $id = $request->reports_id;
         $report = Report::find($id);
+        
         $bookmarks = Bookmark::where('reports_id',$id)->get();
 
         $bookmark = new Bookmark;
         $bookmark->reports_id = $id;
+        $bookmark->user_id = \Auth::id();
 
         $bookmark->save();
 

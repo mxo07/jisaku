@@ -19,10 +19,10 @@ class UserController extends Controller
      */
     public function index()
     {
-        // $users = User::all();
-        return view('user_home'
+        $users = Auth::user();
+        // return view('user_home'
         // ,['users' => $users
-    );
+    // );
     }
 
     /**
@@ -54,9 +54,12 @@ class UserController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function show(Request $request)
+    public function show()
     {
-        return view('user_home');
+ 
+       
+
+        // return view('user_home',['report'->user->id]);
     }
 
     /**
@@ -65,9 +68,12 @@ class UserController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function edit($id)
+    public function edit(Request $request)
     {
-        //
+       $user = User::where('id',\Auth::user()->id)->get();
+
+
+       
     }
 
     /**
@@ -79,7 +85,21 @@ class UserController extends Controller
      */
     public function update(Request $request, $id)
     {
-        //
+        $i_pic = 'icon_img';
+        $file_name = $request->file('icon')->getClientOriginalName();
+        $request->file('icon')->storeAs('public/'.$i_pic,$file_name);
+
+        $columns = ['name','email'];
+
+        foreach($columns as $column){
+             $user->$column = $request->$column;
+        }
+        $user->icon=$file_name;
+       
+        $user->save();
+
+        return redirect('/');
+    
     }
 
     /**
@@ -88,8 +108,9 @@ class UserController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function destroy($id)
+    public function destroy(User $user)
     {
-        //
+        $user->delete();
+        return redirect('/');
     }
 }

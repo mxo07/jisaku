@@ -1,7 +1,7 @@
 <?php
 
 namespace App\Http\Controllers;
-
+use App\User;
 use App\Report;
 use App\Comment;
 use App\Bookmark;
@@ -19,9 +19,12 @@ class ReportController extends Controller
      */
     public function index()
     {
-        $reports = Report::orederBy('created_at','desc')->get();
+        // $reports = Report::with('user')->orederBy('created_at','desc')->get();
+        $reports = Report::join('users','reports.user_id','users.id')->orederBy('reports.created_at','desc')->get();
+        // dd($reports);
+        // $reports   = $report->with('user')->get();
 
-        return view('top')->with(['reports' => $reports]);
+        return view('top',['reports' => $reports]);
     }
 
     /**
@@ -31,6 +34,7 @@ class ReportController extends Controller
      */
     public function create()
     {
+        $params = User::where('user_id',Auth::id())->get();
         return view('report_form');
     }
 
@@ -55,8 +59,10 @@ class ReportController extends Controller
         }
 
         $report->image=$file_name;
+        $report->user_id = \Auth::id();
+        
         $report->save();
-    
+
         return redirect('/');
     }
 
@@ -68,13 +74,17 @@ class ReportController extends Controller
      */
     public function show(Report $report)
     {
-        $comments = Comment::where('reports_id',$report->id)->get();
-        $bookmarks = Bookmark::where('reports_id',$report->id)->get();
+       
+        $reports   = $report->with('user')->first();
+        $comments = Comment::with('user')->where('reports_id',$report['id'])->get();
+        $bookmarks = Bookmark::where('reports_id',$report['id'])->get();
+       
+
 
         return view('reportdetail',[
             'report' => $report,
             'comments' => $comments,
-            'bookmarks' => $bookmarks
+            'bookmarks' => $bookmarks,
         ]);
     }
 
@@ -86,6 +96,7 @@ class ReportController extends Controller
      */
     public function edit(Report $report)
     {
+
         return view('reportedit',['report' =>$report,]);
     }
 
@@ -98,11 +109,17 @@ class ReportController extends Controller
      */
     public function update(Report $report,Request $request)
     {
+        $pic = 'sample';
+        $file_name = $request->file('image')->getClientOriginalName();
+        $request->file('image')->storeAs('public/'.$pic,$file_name);
         $columns =  ['title','text','image','adress'];
 
    foreach($columns as $column){
         $report->$column = $request->$column;
    }
+
+   $report->image=$file_name;
+
    $report->save();
    return redirect('/');
 
