@@ -19,8 +19,10 @@ class ReportController extends Controller
      */
     public function index()
     {
-        // $reports = Report::with('user')->orederBy('created_at','desc')->get();
-        $reports = Report::join('users','reports.user_id','users.id')->orederBy('reports.created_at','desc')->get();
+        $report = new Report;
+        $reports = Report::with('user')->orderBy('created_at','desc')->get();
+        // $reports =$report->join('users','reports.user_id','users.id')->orderBy('reports.created_at','desc')->get();
+        // $reports =User::join('reports','users.id','reports.user_id')->orderBy('reports.created_at','desc')->get();
         // dd($reports);
         // $reports   = $report->with('user')->get();
 
@@ -34,7 +36,7 @@ class ReportController extends Controller
      */
     public function create()
     {
-        $params = User::where('user_id',Auth::id())->get();
+        $user = Auth::user();
         return view('report_form');
     }
 

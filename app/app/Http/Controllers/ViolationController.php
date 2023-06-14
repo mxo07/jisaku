@@ -28,7 +28,7 @@ class ViolationController extends Controller
      */
     public function create(int $report)
     {
-        $violations = Violation::where('reports_id',$report)->first();
+        $violations = Violation::where('report_id',$report)->first();
         return view('violation_form',[
             'report' => $report
         ]);
@@ -42,13 +42,13 @@ class ViolationController extends Controller
      */
     public function store(Request $request)
     {
-        $id = $request->reports_id;
+        $id = $request->report_id;
         $report = Report::find($id);
-        $violations = Violation::where('reports_id',$id)->get();
+        $violations = Violation::where('report_id',$id)->get();
         
         $violation = new Violation;
         $violation->reason = $request->reason;
-        $violation->reports_id = $request->reports_id;
+        $violation->report_id = $request->report_id;
         $violation->user_id = \Auth::id();
 
         $violation->save();

@@ -20,9 +20,9 @@ class UserController extends Controller
     public function index()
     {
         $users = Auth::user();
-        // return view('user_home'
-        // ,['users' => $users
-    // );
+        return view('user_home'
+        ,['users' => $users]
+    );
     }
 
     /**
@@ -59,7 +59,7 @@ class UserController extends Controller
  
        
 
-        // return view('user_home',['report'->user->id]);
+        return view('user_home');
     }
 
     /**

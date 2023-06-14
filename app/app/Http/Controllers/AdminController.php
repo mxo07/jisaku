@@ -3,7 +3,14 @@
 namespace App\Http\Controllers;
 
 use App\User;
+use App\Report;
+use App\Comment;
+use App\Bookmark;
+use App\Violation;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Auth;
+
 
 class AdminController extends Controller
 {
@@ -17,27 +24,28 @@ class AdminController extends Controller
 
         
 
-        if(User::where('role','1')){
+        // if(User::where('role','1')){
 
-            $violations = Violation::select('reports.id')
-            ->selectRaw('COUNT(violation.id) as count_violation')
-            ->groupBy('reports.id')
-            ->orderBy('count_violation','desc')
-            ->take(20)
-            ->get();
+            $violations = Report::withCount('violation')->get();
+            // $violations = Violation::select('reports.id')
+            // ->selectRaw('COUNT(violation.id) as count_violation')
+            // ->groupBy('reports.id')
+            // ->orderBy('count_violation','desc')
+            // ->take(20)
+            // ->get();
 
-            $reports = Report::select('user_id')
-                     ->selectRaw('COUNT(del_flg == 1) as count_del')
-                     ->groupBy('user_id')
-                     ->orderBy('count_del','desc')
-                     ->take(10)
-                     ->get();
+            // $reports = Report::select('user_id')
+            //          ->selectRaw('COUNT(del_flg == 1) as count_del')
+            //          ->groupBy('user_id')
+            //          ->orderBy('count_del','desc')
+            //          ->take(10)
+            //          ->get();
 
-            return view('admin_top');
+            // return view('admin_top');
 
-        }else{
-            return redirect('/');
-        }
+        // }else{
+            return view('admin_top',['violations' => $violations]);
+        // }
 
           
         

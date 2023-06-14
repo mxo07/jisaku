@@ -74,6 +74,7 @@
             <div class="card-body chat-card">
             <div class="media">
     <div class="media-body comment-body">
+        
         @foreach($comments as $comment)
         <div class="row">
             <span class="comment-body-user">{{ $comment->user->name }}</span>

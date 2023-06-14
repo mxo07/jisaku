@@ -13,6 +13,7 @@ Route::group(['middleware' => 'auth'],function(){
 
 //ユーザーコントローラ
 Route::resource('users','UserController');
+Route::resource('admin','AdminController');
 // 投稿操作
 Route::resource('report','ReportController');
 

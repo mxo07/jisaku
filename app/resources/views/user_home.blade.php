@@ -32,7 +32,11 @@
                
             </tbody>
         <div class="card-body">
-         
+        <div class="p-2 bd-hightlight">
+                              <a href="{{ route('admin.index')}}">
+                               <button class='btn btn-secondary'>管理者</button>
+                              </a>
+                          </div>
         </div>
       </div>
     </a>

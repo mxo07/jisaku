@@ -19,13 +19,13 @@
                                         </tr>
                                     </thead>
                                     <tbody>
-                                  
+                        
                                     @if(count($reports) > 0)
                                     @foreach($reports as $report)
     
                                     <tr>
                                         <th scope='col'>
-                                        <a href=" ">{{ $report['name'] }}</a>
+                                        <a href="{{ route('users.show',['user' => $report->user->id])}}">{{ $report->user->name }}</a>
                                         </th>
                                         <th scope='col'>
                                         <a href="{{ route('report.show',['report' => $report['id']])}}">{{ $report['title']}}</a></th>
