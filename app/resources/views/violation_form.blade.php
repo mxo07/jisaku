@@ -10,7 +10,7 @@
         <h1 class="text-center mt-2 mb-5">違反報告</h1>
         <div class="container">
           <label for='text'>報告理由</label>
-          <input type='hidden' value='{{$report}}' name='reports_id'>
+          <input type='hidden' value='{{$report}}' name='report_id'>
           <textarea class='form-control' name='reason'>{{old('reason')}}</textarea>
             </div>
             <button type="submit" class="btn btn-primary">送信する</button>

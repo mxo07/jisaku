@@ -6,6 +6,10 @@ use Illuminate\Database\Eloquent\Model;
 
 class Report extends Model
 {
+
+    protected $fillable = ['id','title','text','adress','user_id'];
+
+
     public function user(){
         return $this->belongsTo('App\User');
     }

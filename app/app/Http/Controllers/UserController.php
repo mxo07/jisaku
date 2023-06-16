@@ -19,10 +19,20 @@ class UserController extends Controller
      */
     public function index()
     {
-        $users = Auth::user();
-        return view('user_home'
-        ,['users' => $users]
-    );
+        
+        $user = Auth::user();
+
+       $reports = Report::where('user_id',\Auth::user()->id)->get();
+       $comments = Comment::where('user_id',\Auth::user()->id)->get();
+       $bookmarks = Bookmark::where('user_id',\Auth::user()->id)->get();
+
+        return view('mypage',[
+            'reports' => $reports,
+            'commments' =>  $comments,
+            'bookmarks' => $bookmarks
+        ]);
+
+       
     }
 
     /**
@@ -54,12 +64,11 @@ class UserController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function show()
+    public function show($id)
     {
- 
-       
 
-        return view('user_home');
+        $user = User::find($id);
+        return view('user_home',['user' => $user]);
     }
 
     /**
@@ -85,16 +94,22 @@ class UserController extends Controller
      */
     public function update(Request $request, $id)
     {
+
+        $img_i =$request->file('icon');
+        if(isset($img_i)){
+
         $i_pic = 'icon_img';
         $file_name = $request->file('icon')->getClientOriginalName();
         $request->file('icon')->storeAs('public/'.$i_pic,$file_name);
 
-        $columns = ['name','email'];
+         $user->icon=$file_name;
+        }
+        $columns = ['name','email','profile'];
 
         foreach($columns as $column){
              $user->$column = $request->$column;
         }
-        $user->icon=$file_name;
+       
        
         $user->save();
 

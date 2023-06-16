@@ -25,26 +25,25 @@ class AdminController extends Controller
         
 
         // if(User::where('role','1')){
+           
+            $violations = Report::withCount('violation')
+            ->orderBy('violation_count','desc')
+            ->take(20)
+            ->get();
 
-            $violations = Report::withCount('violation')->get();
-            // $violations = Violation::select('reports.id')
-            // ->selectRaw('COUNT(violation.id) as count_violation')
-            // ->groupBy('reports.id')
-            // ->orderBy('count_violation','desc')
-            // ->take(20)
-            // ->get();
-
-            // $reports = Report::select('user_id')
-            //          ->selectRaw('COUNT(del_flg == 1) as count_del')
-            //          ->groupBy('user_id')
-            //          ->orderBy('count_del','desc')
-            //          ->take(10)
-            //          ->get();
-
-            // return view('admin_top');
-
-        // }else{
-            return view('admin_top',['violations' => $violations]);
+           
+            $hides= User::withCount(['reports' => function($query){
+                $query->where('hide_flg','1');
+            }])
+            ->orderBy('reports_count','desc')
+            ->take(10)
+            ->get();
+            
+            return view('admin_top',[
+                'violations' => $violations,
+                'hides'    => $hides
+               
+        ]);
         // }
 
           
@@ -107,7 +106,8 @@ class AdminController extends Controller
      */
     public function update(Request $request, User $user)
     {
-        //
+        
+        $hides['hide_flg'] =1;
     }
 
     /**

@@ -13,14 +13,24 @@ use Illuminate\Support\Facades\Auth;
 class DisplayController extends Controller
 {
     //
-    public function index(){
+    public function index(Request $request){
 
-        $report = new Report;
+        
+        // 日付検索
+     $from = $request->input('from');
+
+     $q_r = Report::query();
+     
+   
+     //日付が選択されたら
+     if (!empty($request['from'])) {
+
+          $date = $q_r->whereDate('created_at','<=','$from');
+         
+     } 
+        
         $reports = Report::with('user')->orderBy('created_at','desc')->get();
-        // $reports =$report->join('users','reports.user_id','users.id')->orderBy('reports.created_at','desc')->get();
-        // $reports =User::join('reports','users.id','reports.user_id')->orderBy('reports.created_at','desc')->get();
-        // dd($reports);
-        // $reports   = $report->with('user')->get();
+      
 
         return view('top',['reports' => $reports]);
     }

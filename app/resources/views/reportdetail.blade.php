@@ -39,6 +39,8 @@
             <button type="submit">お気に入り解除</button>
         </form>
     
+        <th scope='col'>ブックマーク数</th>
+        <th scope='col'></th>
     </div>
 
                         
@@ -59,7 +61,11 @@
                                         <th scope='col'>{{ $report['title']}}</th>
                                         <th scope='col'>{{ $report['text']}}</th>
                                         <th scope='col'>{{ $report['adress']}}</th>
+                                        @if(isset($report['image']))
                                         <th scope='col'><img src="{{ asset('storage/sample/'.$report['image'])}}"></th>
+                                        @else
+                                        <th scope='col'><img src="{{ asset('images/no_image_square.jpg')}}"></th>
+                                        @endif
                                       </tr>
                                     </tbody>
                                  </table>

@@ -14,6 +14,6 @@
         <input type='text' class='form-control' name='adress' value="{{old('adress',$report['adress'])}}">
 
     <button type="submit" class="btn btn-primary">編集する</button>
-
+    <a href="/"><button type="submit" class='btn btn-danger'>戻る</button></a>
   </fieldset>
 </form>

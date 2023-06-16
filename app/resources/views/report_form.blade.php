@@ -18,7 +18,7 @@
     <button type="submit" class="btn btn-primary">
       投稿する
     </button>
-
+    <a href="/"><button type="submit" class='btn btn-danger'>戻る</button></a>
   </fieldset>
 </form>
 </div>

@@ -13,6 +13,7 @@
                                 <table class='table'>
                                     <thead>
                                         <tr>
+                                            <th scope='col'></th>
                                             <th scope='col'>投稿者</th>
                                             <th scope='col'>タイトル</th>
                                             <th scope='col'>住所</th>
@@ -24,6 +25,11 @@
                                     @foreach($reports as $report)
     
                                     <tr>
+                                        @if(isset($user['icon']))
+                                        <th scope='col'><img src="{{ asset('storage/icon_img/'.$user['icon'])}}"></th>
+                                        @else
+                                        <th scope='col'><img src="{{ asset('images/no_image_square.jpg')}}"></th>
+                                        @endif
                                         <th scope='col'>
                                         <a href="{{ route('users.show',['user' => $report->user->id])}}">{{ $report->user->name }}</a>
                                         </th>

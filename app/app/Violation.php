@@ -6,6 +6,8 @@ use Illuminate\Database\Eloquent\Model;
 
 class Violation extends Model
 {
+    protected $fillable = ['id','report_id','user_id'];
+
     public function report(){
         return $this->hasMany('App\Report');
     }

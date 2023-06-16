@@ -10,6 +10,9 @@ use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Auth;
 
 
+
+
+
 class ReportController extends Controller
 {
     /**
@@ -48,19 +51,26 @@ class ReportController extends Controller
      */
     public function store(Request $request)
     {
-        $report = new Report;
+       
+        $img =$request->file('image');
+        if(isset($img)){
 
         $pic = 'sample';
         $file_name = $request->file('image')->getClientOriginalName();
         $request->file('image')->storeAs('public/'.$pic,$file_name);
 
+        $report->image=$file_name;
+
+        }
+        $report = new Report;
+        
         $columns = ['title','text','adress'];
 
         foreach($columns as $column){
              $report->$column = $request->$column;
         }
 
-        $report->image=$file_name;
+      
         $report->user_id = \Auth::id();
         
         $report->save();
@@ -80,13 +90,15 @@ class ReportController extends Controller
         $reports   = $report->with('user')->first();
         $comments = Comment::with('user')->where('reports_id',$report['id'])->get();
         $bookmarks = Bookmark::where('reports_id',$report['id'])->get();
+        
        
-
+        
 
         return view('reportdetail',[
             'report' => $report,
             'comments' => $comments,
             'bookmarks' => $bookmarks,
+        
         ]);
     }
 
