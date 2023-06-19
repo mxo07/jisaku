@@ -11,6 +11,7 @@
 
     <!-- Scripts -->
     <script src="{{ asset('js/app.js') }}" defer></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
 
     <!-- Fonts -->
     <link rel="dns-prefetch" href="//fonts.gstatic.com">
@@ -50,16 +51,17 @@
                             @endif
                        
                         @else
-                        <li class="nav-item">
-                                    <a class="nav-link" href="{{ route('users.index') }}">{{ __('profile') }}</a>
-                                </li>
                             <li class="nav-item dropdown">
                                 <a id="navbarDropdown" class="nav-link dropdown-toggle" href="#" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" v-pre>
                                     {{ Auth::user()->name }} <span class="caret"></span>
                                 </a>
 
                                 <div class="dropdown-menu dropdown-menu-right" aria-labelledby="navbarDropdown">
+                                    @if(Auth::user()->role == 0)
                                     <a class="dropdown-item" href="{{ route('users.index') }}">{{ __('My page') }}</a>
+                                    @elseif(Auth::user()->role == 1)
+                                    <a class="dropdown-item" href="{{ route('admin.index') }}">{{ __('Master page') }}</a>
+                                    @endif
                                     <a class="dropdown-item" href="{{ route('logout') }}"
                                        onclick="event.preventDefault();
                                                      document.getElementById('logout-form').submit();">
@@ -91,5 +93,6 @@
             @yield('content')
         </main>
     </div>
+    @yield('js')
 </body>
 </html>

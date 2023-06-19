@@ -20,15 +20,24 @@ class UserController extends Controller
     public function index()
     {
         
-        $user = Auth::user();
+       $user = Auth::user();
 
-       $reports = Report::where('user_id',\Auth::user()->id)->get();
-       $comments = Comment::where('user_id',\Auth::user()->id)->get();
-       $bookmarks = Bookmark::where('user_id',\Auth::user()->id)->get();
+       $reports = Report::where('user_id',\Auth::user()->id)->orderBy('created_at','desc')->get();
+       $comments = Comment::join('reports','comments.reports_id','reports.id')->orderBy('comments.created_at','desc')->get();
+   
+       $bookmarks = Bookmark::join('reports','bookmarks.reports_id','reports.id')
+       ->join('users','bookmarks.user_id','users.id')
+       ->get();
 
+      
+       
+
+    //    $comments = Comment::with('user')->where('reports_id',$report['id'])->get();
+    //    $bookmarks = Bookmark::where('reports_id',$report['id'])->get();
         return view('mypage',[
+            'user'  => $user,
             'reports' => $reports,
-            'commments' =>  $comments,
+            'comments' =>  $comments,
             'bookmarks' => $bookmarks
         ]);
 
@@ -68,7 +77,13 @@ class UserController extends Controller
     {
 
         $user = User::find($id);
-        return view('user_home',['user' => $user]);
+        $reports = Report::where('user_id',$id)->orderBy('created_at','desc')->get();
+
+        return view('user_home',[
+            'user' => $user,
+            'reports' => $reports,
+          
+        ]);
     }
 
     /**
@@ -77,11 +92,10 @@ class UserController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function edit(Request $request)
+    public function edit(Request $request,User $user)
     {
-       $user = User::where('id',\Auth::user()->id)->get();
 
-
+       return view('user_edit',['user' =>$user,]);
        
     }
 
@@ -92,7 +106,7 @@ class UserController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, $id)
+    public function update(Request $request, User $user)
     {
 
         $img_i =$request->file('icon');
@@ -113,7 +127,7 @@ class UserController extends Controller
        
         $user->save();
 
-        return redirect('/');
+        return view('mypage',['user' =>$user,]);
     
     }
 
@@ -126,6 +140,6 @@ class UserController extends Controller
     public function destroy(User $user)
     {
         $user->delete();
-        return redirect('/');
+        return view('complete');
     }
 }

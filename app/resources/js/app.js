@@ -31,4 +31,4 @@ const app = new Vue({
     el: '#app',
 });
 
-// require('./ajaxbookmark.js');
+require('./ajaxbookmark.js');

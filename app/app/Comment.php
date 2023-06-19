@@ -12,7 +12,7 @@ class Comment extends Model
 
     
     public function report(){
-        return $this->belongTo('App\Report');
+        return $this->hasMany('App\Report');
     }
 
     public function user(){

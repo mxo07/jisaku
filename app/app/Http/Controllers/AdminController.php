@@ -27,13 +27,15 @@ class AdminController extends Controller
         // if(User::where('role','1')){
            
             $violations = Report::withCount('violation')
+            ->where('hide_flg','0')
             ->orderBy('violation_count','desc')
             ->take(20)
             ->get();
 
            
             $hides= User::withCount(['reports' => function($query){
-                $query->where('hide_flg','1');
+                $query->where('active','0')
+                      ->where('hide_flg','1');
             }])
             ->orderBy('reports_count','desc')
             ->take(10)
@@ -104,10 +106,31 @@ class AdminController extends Controller
      * @param  \App\User  $user
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, User $user)
+
+    //  利用停止
+    public function hide(int $hides)
     {
+       
+        $hide = User::find($hides);
+    
+        $hide['active'] =1;
         
-        $hides['hide_flg'] =1;
+        $hide->save();
+
+         return redirect('/admin');
+    }
+
+    //  レポート非公開
+    public function delreport(int $violations)
+    {
+       
+        $del = Report::find($violations);
+    
+        $del['hide_flg'] =1;
+        
+        $del->save();
+
+         return redirect('/admin');
     }
 
     /**

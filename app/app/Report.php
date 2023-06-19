@@ -17,6 +17,11 @@ class Report extends Model
     public function bookmark(){
         return $this->hasMany('App\Bookmark');
     }
+    
+    
+    public function isLikedBy($user): bool {
+        return bookmark::where('user_id', $user->id)->where('reports_id', $this->id)->first() !==null;
+    }
 
     public function comment(){
         return $this->hasMany('App\Comment');

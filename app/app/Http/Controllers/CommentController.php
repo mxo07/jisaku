@@ -63,9 +63,11 @@ class CommentController extends Controller
      * @param  \App\Comment  $comment
      * @return \Illuminate\Http\Response
      */
-    public function show(Comment $comment)
+    public function getData()
     {
-        //
+        $comments = Comment::orderBy('created_at', 'desc')->get();
+        $json = ["comments" => $comments];
+    return response()->json($json);
     }
 
     /**
