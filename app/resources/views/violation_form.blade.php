@@ -1,9 +1,6 @@
 @extends('layouts.app')
 @section('content')
 
-<a href="/">
-    <button type='submit' class='btn btn-primary w-25 mt-3'>戻る</button>
-</a>
 <div class="container">
 <form action="{{route('violation.store',['violation' => $report])}}"  enctype="multipart/form-data" method="POST">
   @csrf
@@ -11,10 +8,14 @@
         <div class="container">
           <label for='text'>報告理由</label>
           <input type='hidden' value='{{$report}}' name='report_id'>
-          <textarea class='form-control' name='reason'>{{old('reason')}}</textarea>
-            </div>
-            <button type="submit" class="btn btn-primary">送信する</button>
-            </div>
+          <textarea class='form-control' name='reason'>{{old('reason')}}</textarea>         
 </form>
+</div>
+   <div class='btn-toolbar p-2' role="toolbar">
+            <button type="submit" class="btn btn-outline-info mr-3">送信する</button>
+      <a href="/">
+        <button type='submit' class='btn  btn-outline-dark'>戻る</button>
+      </a>
+</div>
 </div>
 @endsection

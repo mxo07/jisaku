@@ -2,25 +2,30 @@
 @section('content')
 
 <div class="block mx-auto">
-      
                    @if(isset($user['icon']))
                    <img class=""src="{{ asset('storage/icon_img/'.$user['icon'])}}">
                   @else
                    <img src="{{ asset('images/no_image_square.jpg')}}">
                   @endif
                     <div class="h3">{{ Auth::user()->name }}</div>
+                    <div class="card body my-4 w-75 mx-auto">
                     <div class="h5">{{ Auth::user()->profile }}
-    
+</div>
 </div>
 
-
-<a href="{{ route('report.create')}}" class="btn btn-outline-primary">新規投稿</a>
-<a href="{{ route('users.edit',['user' => $user['id']])}}" class="btn btn-outline-primary">プロフィール変更</a>
-<a href="/"><button type="submit" class='btn btn-outline-dark'>戻る</button></a>
+<div class="d-flex justify-content-between">
+  <div class="">
+    <a href="{{ route('report.create')}}" class="btn btn-outline-primary">新規投稿</a>
+    <a href="{{ route('users.edit',['user' => $user['id']])}}" class="btn btn-outline-success">プロフィール変更</a>
+  </div>
+  <div class="">
+    <a href="/"><button type="submit" class='btn btn-outline-dark'>戻る</button></a>
+</div>
+</div>
    
 <div class="card-body">
-  <div class="row">
-                            <div class="col-md-3">
+<div class="d-flex justify-content-center">
+                            <div class="col-md-3 text-center">
                                 <table class='report_table'>                              
                                     <div class="card-header">投稿一覧</div>
                                     <thead>
@@ -31,7 +36,7 @@
                                         </tr>
                                     </thead>
                                     <tbody> 
-                                    @if(!empty($reports))  
+                                    @if(!empty($reports) && isset($report->user->id))  
                                     @foreach($reports as $report)             
                                       <tr>
                                         <th scope='col'>
@@ -51,7 +56,7 @@
                                     </tbody>
                                 </table>
 </div>
-<div class="col-md-3">
+<div class="col-md-3 text-center">
                                 <table class='comment_table'>
                                 <div class="card-header">コメント一覧</div>
                                     <thead>
@@ -61,7 +66,7 @@
                                         </tr>
                                     </thead>
                                     <tbody>
-                                    @if(!empty($comments))
+                                    @if(!empty($comments) && isset($comment->user->id))
                                     @foreach($comments as $comment)    
                                     <tr>
                                         <th scope='col'>
@@ -85,7 +90,7 @@
                                     </thead>
 
                                     <tbody>    
-                                    @if(count($bookmarks) > 0)
+                                    @if(count($bookmarks) > 0 && isset($report->user->id))
                                     @foreach($bookmarks as $bookmark) 
                                     <tr>
                                         <th scope='col'>

@@ -15,13 +15,13 @@
   </div>
   @endif
 </div>
-<form action="{{route('users.update',['user' =>$user['id']])}}" enctype="multipart/form-data" method="PUT">
+<form action="{{route('users.update',['user' =>$user['id']])}}" enctype="multipart/form-data" method="POST">
 @method('PUT')
 @csrf
       <label for='title'>名前</label>
-        <input type='text' class='form-control' name='title' value="{{old('name',$user['name'])}}"/>
+        <input type='text' class='form-control' name='name' value="{{old('name',$user['name'])}}"/>
       <label for='profile'>プロフィール</label>
-        <input type='text' class='form-control' name='prof' value="{{old('profile',$user['profile'])}}"/>
+        <input type='text' class='form-control' name='profile' value="{{old('profile',$user['profile'])}}"/>
       <label for='image'>アイコン</label>
         <input type='file' class='form-control' name='icon' value="">
         <img class=""src="{{ asset('storage/icon_img/'.$user['icon'])}}">

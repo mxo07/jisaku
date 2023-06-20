@@ -16,10 +16,10 @@ class DisplayController extends Controller
     public function index(Request $request){
 
         $user= User::where('id',Auth::id())->first();
-    //    dd($user);
+    //   
 
         $reports = Report::with('user')->orderBy('created_at','desc')->get();
-
+        // dd($reports);
         // 日付検索
    
         $from = $request->input('from');   
@@ -50,4 +50,22 @@ class DisplayController extends Controller
             'search' => $search
         ]);
     }
+    public function show(Report $report){
+
+        $user= User::where('id',Auth::id())->first();
+        $reports   = $report->with('user')->first();
+        $comments = Comment::with('user')->where('reports_id',$report['id'])->get();
+        $bookmarks = Bookmark::where('reports_id',$report['id'])->get();
+        
+        $bookmark_model = new Bookmark;
+
+        return view('reportdetail',[
+            'user' => $user,
+            'report' => $reports,
+            'comments' => $comments,
+            'bookmarks' => $bookmarks,
+            'bookmark_model'=>$bookmark_model
+        
+        ]);
+}
 }

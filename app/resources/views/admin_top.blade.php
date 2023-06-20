@@ -52,6 +52,7 @@
                                     <tbody>                
                                     <tr>
                                         @foreach($violations as $violation)
+                                        @if(isset($violation->user->id))
                                         @if(isset($user['icon']))
                                         <th scope='col'><div class="text-center"><img src="{{ asset('storage/icon_img/'.$user['icon'])}}"></div></th>
                                         @else
@@ -60,7 +61,7 @@
                                         <th scope='col'>
                                             <a href="{{ route('users.show',['user' => $violation->user->id])}}"><div class="text-center">{{ $violation->user->name}}<div></a></th>
                                         <th scope='col'>
-                                            <a href="{{ route('report.show',['report' => $violation->id])}}"><div class="text-center">{{ $violation->title}}</div></a>
+                                            <a href="{{ route('admin.show',['admin' => $violation['id']])}}"><div class="text-center">{{ $violation->title}}</div></a>
                                         </th>
                                         <th scope='col'>
                                             <div class="text-center">{{ $violation->violation_count}}</div>
@@ -71,12 +72,13 @@
                                             <button type="submit" class='btn btn-danger'>非公開</button></a>
                                         </th>
                                       </tr>
+                                      @endif
                               @endforeach                                   
                                     </tbody>
                                     </table>
                                     </div>
 </div>
-                                <a href="/"><div class="float-right"><button type="submit" class='btn btn-danger'>戻る</button></div></a>
+                                <a href="/"><div class="float-right"><button type="submit" class='btn btn-outline-dark'>戻る</button></div></a>
 </main>
 
 

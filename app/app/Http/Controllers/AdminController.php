@@ -76,12 +76,16 @@ class AdminController extends Controller
     /**
      * Display the specified resource.
      *
-     * @param  \App\User  $user
+     * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function show(User $user)
+    public function show($id)
     {
-        //
+        $reports =Violation::join('reports','violations.report_id','reports.id')
+        ->where('report_id',$id)
+       ->get();
+
+       return view('violationdetail',['reports' =>$reports]);
     }
 
     /**

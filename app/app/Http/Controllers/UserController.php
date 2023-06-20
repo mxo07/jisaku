@@ -108,7 +108,7 @@ class UserController extends Controller
      */
     public function update(Request $request, User $user)
     {
-
+    // dd($user);
         $img_i =$request->file('icon');
         if(isset($img_i)){
 
@@ -118,7 +118,10 @@ class UserController extends Controller
 
          $user->icon=$file_name;
         }
-        $columns = ['name','email','profile'];
+        // $pic = 'icon_img';
+        // $file_name = $request->file('icon')->getClientOriginalName();
+        // $request->file('icon')->storeAs('public/'.$i_pic,$file_name);
+        $columns = ['name','profile'];
 
         foreach($columns as $column){
              $user->$column = $request->$column;
@@ -127,7 +130,7 @@ class UserController extends Controller
        
         $user->save();
 
-        return view('mypage',['user' =>$user,]);
+        return redirect('/users');
     
     }
 
@@ -140,6 +143,6 @@ class UserController extends Controller
     public function destroy(User $user)
     {
         $user->delete();
-        return view('complete');
+        return view('delete_complete');
     }
 }

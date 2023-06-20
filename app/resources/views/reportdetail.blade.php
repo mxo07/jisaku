@@ -1,44 +1,13 @@
 @extends('layouts.app')
 @section('content')
-
+@if(session('flash_msg'))
+      <p class="text-danger">
+        {{session('flash_msg')}}
+      </p>
+    @endif
 <main class="py-4">
-  <div class="card my-3">
-      <div class="card-body">
-        
-          @if($user['active'] == 1)
-          <p>利用停止されています</p>
-        @else
-        <div class='btn-toolbar' role="toolbar">
-                              <a href="{{ route('report.edit',['report' => $report['id']])}}">
-                               <button class='btn btn-outline-success'>編集</button>
-                              </a>
-                              <form action="{{ route('report.destroy',['report' => $report['id']]) }}" method="POST"
-                                onSubmit="return checkDelete()">
-                              @method('DELETE')  
-                              @csrf
-                               <button type="submit" class='btn btn-outline-secondary'>削除</button>
-                            </form>
-                            <a href="{{ route('violation.create',['violation' => $report['id']])}}">
-                               <button class='btn btn-outline-warning'>報告する</button>
-                            </a>
-
-                            @if($bookmark_model->bookmark_exist(Auth::user()->id,$report->id))
-                              <button class='btn btn-outline-danger'>
-                                <a class="js-bookmark-toggle fav open" href="" data-reportsid="{{ $report->id }}"></a>
-                              </button>
-                           @else
-                              <button class='btn btn-outline-danger'>
-                                <a class="js-bookmark-toggle fav" href="" data-reportsid="{{ $report->id }}"></a>
-                              </button>
-                            @endif
-                       @endif                          
-                            </div>
-                              <a href="/"><button type="submit" class='btn btn-outline-dark'>戻る</button></a>
-</div>
-</div>                 
                             <div class="card-body">
                                             <div class="d-flex align-items-center justify-content-center h1">{{ $report['title']}}</div>
-
                                             <div class="row d-flex justify-content-between">
                                             <div class="text-left">
                                                 投稿者/
@@ -60,22 +29,65 @@
                                         <img src="{{ asset('storage/sample/'.$report['image'])}}" class="img">
                                         @endif
                                   </div>
-                                  <div class="border rounded W-75 ">
+                                  <div class="card body my-4 w-75 mx-auto">
                                   <div class="text-break text-wrap lead ">
                                 {{ $report['text']}}
 </div>
 </div>
-                             </div>
-                          </div>
-                          </div>
 
-    <div class="chat-container justify-content-center w-50">
+@if($user == null || $user['active'] == 1)
+  <p>利用停止されています</p>
+  @else
+    @if($report->user->id == Auth::id())
+      <div class='row justify-content-end'>
+        <div class="mr-3">
+          <a href="{{ route('report.edit',['report' => $report['id']])}}">
+            <button class='btn btn-outline-success'>編集</button>
+          </a>
+        </div>
+        <div class="mr-3">
+          <form action="{{ route('report.destroy',['report' => $report['id']]) }}" method="POST" 
+          onSubmit="return checkDelete()">
+            @method('DELETE')  
+              @csrf
+            <button type="submit" class='btn btn-outline-secondary'>削除</button>
+          </form>
+        </div>
+        </div>
+    @else    
+        <div class='row justify-content-end'>
+          <div class="mr-3">
+            <a href="{{ route('violation.create',['violation' => $report['id']])}}">
+              <button class='btn btn-outline-warning'>報告する</button>
+            </a>
+          </div>
+          <div class="mr-3">
+            @if($bookmark_model->bookmark_exist(Auth::user()->id,$report->id))
+              <button class='btn btn-outline-danger'>
+                <a class="js-bookmark-toggle fav open" href="" data-reportsid="{{ $report->id }}"></a>
+                  </button>
+              @else
+                <button class='btn btn-outline-danger'>
+                  <a class="js-bookmark-toggle fav" href="" data-reportsid="{{ $report->id }}"></a>
+                </button>
+              @endif
+          </div>
+        </div>
+        <div class="text-left">
+              <a href="/"><button type="submit" class='btn btn-outline-dark'>戻る</button></a>
+            </div>
+  @endif       
+@endif                          
+            
+
+  <div class="chat-container justify-content-center w-50 mx-auto">
     <div class="chat-area">
-        <div class="card center-block">
+        <div class="card">
             <div class="card-header">Comment</div>
             <div class="card-body chat-card">
-            <div class="media">
-        <div class="media-body comment-body">  
+            <div class="media ">
+        <div class="media-body comment-body"> 
+        @if(isset($report->user->id)) 
           @foreach($comments as $comment)
           <div class="row ">
               <span class="comment-body-user">{{ $comment->user->name }}</span>
@@ -85,31 +97,32 @@
             {!! nl2br(e($comment['comment'])) !!}
             </span>
             @endforeach
-        </div>
+            @endif
+      </div>
 </div>
             </div>
         </div>
        </div>
 </div>
 
-@if($user['active'] ==1)
+@if($user == null || $user['active'] ==1)
 <p>利用停止されています</p>
 @else
 <form method="POST" action="{{ route('comment.store') }}">
     @csrf
-      <div class="comment-container row justify-content-center w-50">
-      <div class="input-group comment-area inputlg">
-        <input type="hidden" value="{{ $report['id']}}" name="reports_id">
-        <textarea class="form-control col-md-10" placeholder="input massage" aria-label="With textarea" name="comment"></textarea>
+      <div class="comment-container row justify-content-center w-50 mx-auto p-2">
+        <div class="input-group comment-area inputlg">
+          <input type="hidden" value="{{ $report['id']}}" name="reports_id">
+            <textarea class="form-control col-md-10" placeholder="input massage" aria-label="With textarea" name="comment"></textarea>
         </div>
-        </div>
-        </div>
-    <button type="input-group-prepend button" class="btn btn-outline-primary comment-btn">
-            Submit
+     
+      <div class="p-2 mr-10">
+        <button type="input-group-prepend button" class="btn btn-outline-info comment-btn ">
+            コメントする
         </button>
-      
-  
-
+      </div>
+      </div>
+</div>
 </form>
 @endif
 
@@ -119,7 +132,6 @@
 @endsection
 
 <script>
-
     function checkDelete(){
         if(window.confirm('削除してよろしいですか？')){
             return ture;
@@ -132,9 +144,11 @@
 <style>
     .fav::before{
         content:'お気に入り登録';
+        color:pink;
     }
     .fav.open::before{
         content:'お気に入り解除';
+        color:pink;
     }
 
   .icon{
@@ -145,6 +159,7 @@
   .img{
     width: 400px;
   }
+
 
     </style>
     <script>

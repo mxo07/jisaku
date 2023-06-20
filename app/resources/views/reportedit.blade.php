@@ -26,12 +26,17 @@
         <textarea class='form-control' name='text'>{{old('text',$report['text'])}}</textarea>
       <label for='image'>画像</label>
         <input type='file' class='form-control' name='image' value="">
+        <div class="text-center">
+        @if(isset($report['image']))
         <img src="{{ asset('storage/sample/'.$report['image'])}}">
+        @endif
+        </div>
       <label for='adress'>住所</label>
         <input type='text' class='form-control' name='adress' value="{{old('adress',$report['adress'])}}">
-
-    <button type="submit" class="btn btn-primary">編集する</button>
-    <a href="/"><button type="submit" class='btn btn-danger'>戻る</button></a>
+<div class="p-2">
+    <button type="submit" class="btn btn-outline-success">編集する</button>
+    <a href="/"><button type="submit" class='btn btn-outline-dark'>戻る</button></a>
+</div>
   </fieldset>
 </form>
 @endsection

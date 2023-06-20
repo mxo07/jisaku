@@ -29,10 +29,10 @@
       <label for='adress'>住所</label>
         <input type='text' class='form-control' name='adress' value="{{old('adress')}}">
 
-    <button type="submit" class="btn btn-primary">
+    <button type="submit" class="btn btn-outline-info">
       投稿する
     </button>
-    <a href="/"><button type="submit" class='btn btn-danger'>戻る</button></a>
+    <a href="/"><button type="submit" class='btn  btn-outline-dark'>戻る</button></a>
   </fieldset>
 </form>
 </div>

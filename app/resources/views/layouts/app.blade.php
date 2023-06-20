@@ -72,14 +72,15 @@
                                         @csrf
                                     </form>
 
-                                    <a class="dropdown-item" href="{{ route('users.destroy',Auth::user()->id) }}"
-                                       onclick="event.preventDefault();
-                                                     document.getElementById('Deletet-form').submit();">
-                                        {{ __('Delete') }}
-                                    </a>
+                            
 
-                                    <form id="Deletet-form" action="{{ route('users.destroy',Auth::user()->id) }}" method="POST" style="display: none;">
-                                        @csrf
+                                    <form id="Deletet-form" action="{{ route('users.destroy',Auth::user()->id) }}" method="POST"
+                                    class="dropdown-item"
+                                        onclick="event.preventDefault();
+                                                     document.getElementById('Deletet-form').submit();">
+                                                      @csrf
+                                                      @method('DELETE')
+                                        {{ __('Delete') }}
                                     </form>
                                 </div>
                             </li>

@@ -60,18 +60,18 @@ class ViolationController extends Controller
 
         $violation->save();
        
-        return view('complete');
+        return view('vio_complete');
     }
 
     /**
      * Display the specified resource.
      *
-     * @param  \App\Violation  $violation
+     * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function show(Violation $violation)
+    public function show($id)
     {
-        //
+      
     }
 
     /**
