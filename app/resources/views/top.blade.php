@@ -35,15 +35,15 @@
                  </div>
             </div>
         </div>
-        @if($user != null && $user['active'] == 1)
-          <p>利用停止されています</p>
-        @else
+        @if($user == null || $user['active'] == 0)
         <div class="text-right">
         <a href="{{ route('report.create')}}">
          
                                 <button type='submit' class='btn btn-outline-info w-15 mt-3'>新規登録</button>
         </a>
         </div>
+        @else
+        <p>利用停止されています</p>
         @endif
         <div class="card-header">
           <div class="md-10">

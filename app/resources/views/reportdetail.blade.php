@@ -35,7 +35,9 @@
 </div>
 </div>
 
-@if($user == null || $user['active'] == 1)
+@if($user == null)
+<p>お気に入り登録・違反報告にはログインが必要です。</p>
+@elseif($user['active'] == 1)
   <p>利用停止されています</p>
   @elseif($user['active'] == 0)
     @if($report->user->id == Auth::id())
@@ -105,9 +107,8 @@
        </div>
 </div>
 
-@if($user['active'] ==1)
-<p>利用停止されています</p>
-@elseif($user == null || $user['role'] == 0 && $user['active'] == 0)
+
+@if($user == null || $user['role'] == 0 && $user['active'] == 0)
 <form method="POST" action="{{ route('comment.store') }}">
     @csrf
       <div class="comment-container row justify-content-center w-50 mx-auto p-2">
@@ -124,6 +125,8 @@
       </div>
 </div>
 </form>
+@elseif($user['active'] ==1)
+<p>利用停止されています</p>
 @endif
 
 @section('js')
