@@ -37,7 +37,7 @@
 
 @if($user == null || $user['active'] == 1)
   <p>利用停止されています</p>
-  @else
+  @elseif($user['active'] == 0)
     @if($report->user->id == Auth::id())
       <div class='row justify-content-end'>
         <div class="mr-3">
@@ -105,9 +105,9 @@
        </div>
 </div>
 
-@if($user == null || $user['active'] ==1)
+@if($user['active'] ==1)
 <p>利用停止されています</p>
-@else
+@elseif($user == null || $user['role'] == 0 && $user['active'] == 0)
 <form method="POST" action="{{ route('comment.store') }}">
     @csrf
       <div class="comment-container row justify-content-center w-50 mx-auto p-2">

@@ -12,7 +12,9 @@
                     <div class="h5">{{ Auth::user()->profile }}
 </div>
 </div>
-
+@if($user == null || $user['active'] == 1)
+  <p>利用停止されています</p>
+  @elseif($user['active'] == 0)
 <div class="d-flex justify-content-between">
   <div class="">
     <a href="{{ route('report.create')}}" class="btn btn-outline-primary">新規投稿</a>
@@ -36,11 +38,12 @@
                                         </tr>
                                     </thead>
                                     <tbody> 
-                                    @if(!empty($reports) && isset($report->user->id))  
-                                    @foreach($reports as $report)             
+                                    
+                                    @foreach($reports as $report)   
+                                    @if(!empty($report) && $report->active == 0)            
                                       <tr>
                                         <th scope='col'>
-                                          <a href="{{ route('report.show',['report' => $report->id])}}">{{ $report->title}}</a>
+                                          <a href="{{ route('display.show',['report' => $report->id])}}">{{ $report->title}}</a>
                                         </th>
                                         <th scope='col'>{{ $report->adress}}</th>
                                         <th scope='col'>{{ $report->created_at->format('Y/m/d')}}</th>
@@ -51,8 +54,9 @@
                                         <a href="{{ route('report.destroy',['report' => $report->id])}}" class="btn btn-outline-secondary">削除</a>
                                         </th>
                                       </tr>
+                                      @endif
                                     @endforeach
-                                    @endif
+                                    
                                     </tbody>
                                 </table>
 </div>
@@ -66,16 +70,18 @@
                                         </tr>
                                     </thead>
                                     <tbody>
-                                    @if(!empty($comments) && isset($comment->user->id))
-                                    @foreach($comments as $comment)    
+                                    
+                                    @foreach($comments as $comment)   
+                                    @if(!empty($comment) && $comment->active ==0) 
                                     <tr>
                                         <th scope='col'>
-                                        <a href="{{ route('report.show',['report' => $report->id])}}">{{ $comment->title}}</a>
+                                        <a href="{{ route('display.show',['report' => $comment->id])}}">{{ $comment->title}}</a>
                                         </th>
                                         <th scope='col'>{!! nl2br(e($comment->comment)) !!}</th>
                                       </tr>
+                                      @endif
                                  @endforeach
-                                    @endif
+                                    
                                     </tbody>
                                 </table>
 </div>
@@ -90,18 +96,18 @@
                                     </thead>
 
                                     <tbody>    
-                                    @if(count($bookmarks) > 0 && isset($report->user->id))
+                                    @if(count($bookmarks) > 0)
                                     @foreach($bookmarks as $bookmark) 
                                     <tr>
                                         <th scope='col'>
-                                          <a href="{{ route('report.show',['report' => $bookmark->id])}}">{{ $bookmark->title}}</a>
+                                          <a href="{{ route('display.show',['report' => $bookmark->id])}}">{{ $bookmark->title}}</a>
                                         </th>
                                         <th scope='col'>
                                           <a href="{{ route('users.show',['user' => $bookmark->id])}}">{{ $bookmark->name}}</a></th>
                                       </tr>
                                     @endforeach
                                     @endif
-                                     
+                                     @endif  
                                     </tbody>
                                 </table>
 </div>

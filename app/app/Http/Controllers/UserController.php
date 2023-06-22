@@ -22,18 +22,23 @@ class UserController extends Controller
         
        $user = Auth::user();
 
-       $reports = Report::where('user_id',\Auth::user()->id)->orderBy('created_at','desc')->get();
-       $comments = Comment::join('reports','comments.reports_id','reports.id')->orderBy('comments.created_at','desc')->get();
+       $reports = Report::join('users','reports.user_id','users.id')->where('user_id',\Auth::user()->id)
+       ->orderBy('reports.created_at','desc')->get();
+       
+       $comments = Comment::join('reports','comments.reports_id','reports.id')->
+       join('users','comments.user_id','users.id')->where('reports.hide_flg',0)->where('comments.user_id',\Auth::user()->id)
+       ->orderBy('comments.created_at','desc')->get();
    
-       $bookmarks = Bookmark::join('reports','bookmarks.reports_id','reports.id')
-       ->join('users','bookmarks.user_id','users.id')
+    //    $bookmarks = Bookmark::join('reports','bookmarks.reports_id','reports.id')
+    //    ->join('users','bookmarks.user_id','users.id')
+    //    ->where('bookmarks.user_id',\Auth::user()->id)
+    //    ->get();
+
+       $bookmarks = Report::join('users','reports.user_id','users.id')->
+       join('bookmarks','reports.id','bookmarks.reports_id')->where('bookmarks.user_id',\Auth::user()->id)
        ->get();
 
-      
-       
 
-    //    $comments = Comment::with('user')->where('reports_id',$report['id'])->get();
-    //    $bookmarks = Bookmark::where('reports_id',$report['id'])->get();
         return view('mypage',[
             'user'  => $user,
             'reports' => $reports,

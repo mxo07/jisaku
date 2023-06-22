@@ -27,12 +27,21 @@
                                         <th scope='col'><a href="{{ route('users.show',['user' => $hide->id])}}"><div class="text-center">{{ $hide->name}}</div></a></th>
                                         <th scope='col'><div class="text-center">{{ $hide->reports_count}}</div></th>
                                         <th scope='col'>
+                                          @if($hide['active'] == 0)
                                           <a href="{{ route('admin.hide',['user' => $hide['id']])}}">   
                                                 @csrf
                                                 <div class="text-center">
                                                     <button type="submit" class='btn btn-danger'>利用停止</button></div>
+                                          </a>
+                                          @else
+                                          <a href="{{ route('admin.unhide',['user' => $hide['id']])}}">   
+                                                @csrf
+                                                <div class="text-center">
+                                                    <button type="submit" class='btn btn-danger'>利用再開</button></div>
+                                          </a>
+                                          @endif
                                         </th>
-</a>
+
                                         </tr>
                                     @endforeach                                   
                                     </tbody>
@@ -53,6 +62,7 @@
                                     <tr>
                                         @foreach($violations as $violation)
                                         @if(isset($violation->user->id))
+                                        
                                         @if(isset($user['icon']))
                                         <th scope='col'><div class="text-center"><img src="{{ asset('storage/icon_img/'.$user['icon'])}}"></div></th>
                                         @else
@@ -67,9 +77,15 @@
                                             <div class="text-center">{{ $violation->violation_count}}</div>
                                         </th>
                                         <th scope='col'>
+                                          @if($violation['hide_flg'] == 0)
                                             <a href="{{ route('admin.delreport',['report' =>$violation['id']])}}">
                                             @csrf
                                             <button type="submit" class='btn btn-danger'>非公開</button></a>
+                                            @else
+                                            <a href="{{ route('admin.undelreport',['report' =>$violation['id']])}}">
+                                            @csrf
+                                            <button type="submit" class='btn btn-danger'>公開</button></a>
+                                            @endif
                                         </th>
                                       </tr>
                                       @endif

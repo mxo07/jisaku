@@ -43,12 +43,18 @@ class DisplayController extends Controller
        
         $reports = $query->orderBy('created_at','desc')->get();
 
-        return view('top',[
-            'user' => $user,
-            'reports' => $reports,
-            'from'   => $from,
-            'search' => $search
-        ]);
+        if(isset($user) && Auth::user()->role == 0 || $user == null){
+            return view('top',[
+                'user' => $user,
+                'reports' => $reports,
+                'from'   => $from,
+                'search' => $search
+            ]);
+        }else{
+
+            return redirect('/admin');
+        }
+        
     }
     public function show(Report $report){
 
@@ -61,7 +67,7 @@ class DisplayController extends Controller
 
         return view('reportdetail',[
             'user' => $user,
-            'report' => $reports,
+            'report' => $report,
             'comments' => $comments,
             'bookmarks' => $bookmarks,
             'bookmark_model'=>$bookmark_model

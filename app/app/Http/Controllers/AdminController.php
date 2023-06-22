@@ -22,20 +22,17 @@ class AdminController extends Controller
     public function index()
     {
 
-        
-
         // if(User::where('role','1')){
            
             $violations = Report::withCount('violation')
-            ->where('hide_flg','0')
             ->orderBy('violation_count','desc')
             ->take(20)
             ->get();
 
            
             $hides= User::withCount(['reports' => function($query){
-                $query->where('active','0')
-                      ->where('hide_flg','1');
+                $query->where('active','0');
+
             }])
             ->orderBy('reports_count','desc')
             ->take(10)
@@ -116,8 +113,18 @@ class AdminController extends Controller
     {
        
         $hide = User::find($hides);
-    
         $hide['active'] =1;
+        
+        $hide->save();
+
+         return redirect('/admin');
+    }
+
+    public function unhide(int $hides)
+    {
+       
+        $hide = User::find($hides);
+        $hide['active'] =0;
         
         $hide->save();
 
@@ -129,8 +136,18 @@ class AdminController extends Controller
     {
        
         $del = Report::find($violations);
-    
         $del['hide_flg'] =1;
+        
+        $del->save();
+
+         return redirect('/admin');
+    }
+
+    public function undelreport(int $violations)
+    {
+       
+        $del = Report::find($violations);
+        $del['hide_flg'] =0;
         
         $del->save();
 

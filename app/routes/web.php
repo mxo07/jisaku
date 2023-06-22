@@ -7,7 +7,7 @@ use App\Http\Controllers\BookmarkController;
 
 // top画面
 Route::get('/','DisplayController@index');
-Route::get('reportdetail/{id}','DisplayController@show')->name('display.show');
+Route::get('reportdetail/{report}','DisplayController@show')->name('display.show');
 
 Auth::routes();
 Route::group(['middleware' => 'auth'],function(){
@@ -31,8 +31,13 @@ Route::resource('users','UserController');
 Route::resource('admin','AdminController');
 
 // 管理者機能
+// 利用停止
 Route::get('/admin/hide/{user}','AdminController@hide')->name('admin.hide');
+Route::get('/admin/unhide/{user}','AdminController@unhide')->name('admin.unhide');
+
+// 非公開
 Route::get('/admin/delreport/{report}','AdminController@delreport')->name('admin.delreport');
+Route::get('/admin/undelreport/{report}','AdminController@undelreport')->name('admin.undelreport');
 
 
 

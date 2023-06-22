@@ -85,7 +85,7 @@
                                         @endif
                                         </th>
                                         <th scope='col' class="align-middle">
-                                        <a href="{{ route('display.show',['id' => $report['id']])}}">{{ $report['title']}}</a></th>
+                                        <a href="{{ route('display.show',['report' => $report['id']])}}">{{ $report['title']}}</a></th>
                                         <th scope='col' class="align-middle">{{ $report['adress']}}</th>
                                         <th scope='col' class="align-middle">{{ $report['created_at']->format('Y/m/d')}}</th>
                                       </tr>

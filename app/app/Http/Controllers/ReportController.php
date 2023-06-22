@@ -40,8 +40,9 @@ class ReportController extends Controller
      */
     public function create()
     {
-        $user = Auth::user();
-        return view('report_form');
+       
+      return view('report_form');
+        
     }
 
     /**
@@ -52,7 +53,8 @@ class ReportController extends Controller
      */
     public function store(CreateReport $request)
     {
-       
+        $report = new Report;
+        
         $img =$request->file('image');
         if(isset($img)){
 
@@ -60,10 +62,10 @@ class ReportController extends Controller
         $file_name = $request->file('image')->getClientOriginalName();
         $request->file('image')->storeAs('public/'.$pic,$file_name);
 
-        $report->image=$file_name;
+        $report-> image = $file_name;
 
         }
-        $report = new Report;
+       
         
         $columns = ['title','text','adress'];
 
