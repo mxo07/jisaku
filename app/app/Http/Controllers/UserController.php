@@ -148,6 +148,9 @@ class UserController extends Controller
     public function destroy(User $user)
     {
         $user->delete();
-        return view('delete_complete');
+
+        session()->flash('flash_msg','退会しました。ご利用ありがとうございました。');
+        // return view('delete_complete');
+        return redirect('/');
     }
 }

@@ -7,9 +7,9 @@
                   @else
                    <img src="{{ asset('images/no_image_square.jpg')}}">
                   @endif
-                    <div class="h3">{{ Auth::user()->name }}</div>
+                    <div class="h3">{{ $user['name'] }}</div>
                     <div class="card body my-4 w-75 mx-auto">
-                    <div class="h5">{{ Auth::user()->profile }}
+                    <div class="h5">{{ $user['profile'] }}</div>
 </div>
 </div>
     </div>
