@@ -22,9 +22,9 @@ class AdminController extends Controller
     public function index()
     {
 
-        // if(User::where('role','1')){
-           
-            $violations = Report::withCount('violation')
+
+            $violations = Report::join('users','reports.user_id','users.id')
+            ->withCount('violation')
             ->orderBy('violation_count','desc')
             ->take(20)
             ->get();

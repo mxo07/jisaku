@@ -19,8 +19,8 @@
                                     <tr>
                                     @foreach($hides as $hide)
 
-                                    @if(isset($user['icon']))
-                                        <th scope='col'><div class="text-center"><img src="{{ asset('storage/icon_img/'.$user['icon'])}}"></div></th>
+                                    @if(isset($hide['icon']))
+                                        <th scope='col'><div class="text-center"><img src="{{ asset('storage/icon_img/'.$hide['icon'])}}"></div></th>
                                         @else
                                         <th scope='col'><div class="text-center"><img src="{{ asset('images/no_image_square.jpg')}}"></div></th>
                                         @endif
@@ -63,9 +63,9 @@
                                         @foreach($violations as $violation)
                                         @if(isset($violation->user->id))
                                         
-                                        @if(isset($user['icon']))
-                                        <th scope='col'><div class="text-center"><img src="{{ asset('storage/icon_img/'.$user['icon'])}}"></div></th>
-                                        @else
+                                        @if(isset($violation->user->icon))
+                                        <th scope='col'><div class="text-center"><img src="{{ asset('storage/icon_img/'.$violation->user->icon)}}"></div></th>
+                                         @else
                                         <th scope='col'><div class="text-center"><img src="{{ asset('images/no_image_square.jpg')}}"></div></th>
                                         @endif
                                         <th scope='col'>
